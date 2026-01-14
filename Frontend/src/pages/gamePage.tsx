@@ -4,9 +4,9 @@ import Keyboard from '../components/Keyboard';
 import UserForm from '../components/UserForm';
 import Hints from '../components/Hints';
 import type { GameState, LetterStatus, LetterResult, User } from '../types';
+import {api} from "../../libs/api"
 
 
-const API_URL = 'http://localhost:3001/api';
 
 
 function GamePage() {
@@ -26,15 +26,11 @@ function GamePage() {
 
   const handleUserSubmit = async (username: string) => {
     try {
-      const response = await fetch(`${API_URL}/user`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username }),
-      });
-      const userData = await response.json();
-      setUser(userData);
-      setPoints(userData.points);
-      startNewGame(userData.id);
+      const response = await api.post(`/user`, { username });
+      const data = response.data;
+      setUser(data);
+      setPoints(data.points);
+      startNewGame(data.id);
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
       alert('Erro ao criar usuário');
@@ -43,12 +39,8 @@ function GamePage() {
 
   const startNewGame = async (userId: number) => {
     try {
-      const response = await fetch(`${API_URL}/game/start`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      const data = await response.json();
+      const response = await api.post(`/game/start`, { userId });
+      const data = response.data;
       setGameState({
         gameId: data.gameId,
         currentGuess: '',
@@ -70,15 +62,11 @@ function GamePage() {
     if (gameState.currentGuess.length !== 5 || !gameState.gameId) return;
 
     try {
-      const response = await fetch(`${API_URL}/game/guess`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await api.post(`/game/guess`, {
           gameId: gameState.gameId,
           guess: gameState.currentGuess,
-        }),
-      });
-      const data = await response.json();
+        });
+      const data =  response.data;
 
       const newGuesses = [...gameState.guesses, data.result as LetterResult[]];
       const newAttemptCount = gameState.attemptCount + 1;
@@ -115,9 +103,8 @@ function GamePage() {
       if (data.finished) {
         setShowResult(true);
         if (data.won && user) {
-          const pointsResponse = await fetch(`${API_URL}/user/${user.id}/points`);
-          const pointsData = await pointsResponse.json();
-          setPoints(pointsData.points);
+          const pointsResponse = await api.get(`/user/${user.id}/points`);
+          setPoints(pointsResponse.data.points);
         }
       }
     } catch (error) {
