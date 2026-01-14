@@ -1,7 +1,14 @@
-import { Pool, QueryResult } from 'pg';
+import { Pool, QueryResult} from 'pg';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
-  const connectionString = process.env.DATABASE_URL;
+// Recriando __dirname para ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const connectionString = process.env.DATABASE_URL;
     
     if (!connectionString) {
     throw new Error('DATABASE_URL não está definido no ambiente.');
@@ -38,4 +45,17 @@ export const connectDB = async () => {
 export const closeDB = () => {
     pool.end();
     console.log('Pool de conexão do PostgreSQL encerrado.');
+};
+
+export const setupDatabase = async () => {
+    try {
+        const sqlFilePath = path.join(__dirname, './database.sql');
+        const sql = fs.readFileSync(sqlFilePath, 'utf8');
+
+        console.log(' Criando tabelas...');
+        await pool.query(sql);
+        console.log('✅ Tabelas criadas/verificadas com sucesso!');
+    } catch (err) {
+        console.error('❌ Erro ao criar tabelas:', err);
+    }
 };
