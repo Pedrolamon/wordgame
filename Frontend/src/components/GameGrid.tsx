@@ -1,4 +1,4 @@
-import { LetterStatus } from '../types';
+import type { LetterStatus } from '../types';
 
 interface GameGridProps {
   guesses: Array<Array<{ letter: string; status: LetterStatus }>>;

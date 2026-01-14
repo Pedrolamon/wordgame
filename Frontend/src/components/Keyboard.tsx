@@ -1,4 +1,5 @@
-import { LetterStatus } from '../types';
+import type { LetterStatus } from '../types';
+
 
 interface KeyboardProps {
   onKeyPress: (key: string) => void;
