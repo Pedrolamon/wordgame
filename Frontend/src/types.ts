@@ -14,3 +14,9 @@ export interface GameState {
   finished: boolean;
   hints: string[];
 }
+
+export interface User {
+  id: number;
+  username: string;
+  points: number;
+}
