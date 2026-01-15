@@ -6,8 +6,7 @@ import Hints from '../components/Hints';
 import type { GameState, LetterStatus, LetterResult, User } from '../types';
 import {api} from "../../libs/api"
 
-
-
+import Name from '../components/ui/Name';
 
 function GamePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -32,8 +31,7 @@ function GamePage() {
       setPoints(data.points);
       startNewGame(data.id);
     } catch (error) {
-      console.error('Erro ao criar usuário:', error);
-      alert('Erro ao criar usuário');
+      alert('Error creating user.');
     }
   };
 
@@ -53,8 +51,7 @@ function GamePage() {
       setLetterStates({});
       setShowResult(false);
     } catch (error) {
-      console.error('Erro ao iniciar jogo:', error);
-      alert('Erro ao iniciar jogo');
+      alert('Error starting game.');
     }
   };
 
@@ -108,8 +105,7 @@ function GamePage() {
         }
       }
     } catch (error) {
-      console.error('Erro ao fazer tentativa:', error);
-      alert('Erro ao fazer tentativa');
+      alert('Error while attempting');
     }
   }, [gameState, letterStates, user]);
 
@@ -156,14 +152,9 @@ function GamePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-blue-50 to-blue-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
-          <h1 className="text-4xl font-bold text-center mb-2 text-gray-800">
-            TERMO
-          </h1>
-          <p className="text-center text-gray-600 mb-8">
-            Descubra a palavra certa em 6 tentativas
-          </p>
+      <div className="min-h-screen bg-(--color-primary) flex items-center justify-center p-4">
+        <div className="bg-(--secondary-color) rounded-2xl shadow-xl p-4 w-full max-w-fit">
+          <Name/>
           <UserForm onSubmit={handleUserSubmit} />
         </div>
       </div>
@@ -175,14 +166,14 @@ function GamePage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-800 mb-2">TERMO</h1>
+          <Name/>
           <div className="flex justify-center items-center gap-6 text-lg">
             <div className="bg-white px-4 py-2 rounded-lg shadow">
-              <span className="font-bold text-gray-700">Jogador: </span>
+              <span className="font-bold text-gray-700">Player: </span>
               <span className="text-blue-600">{user.username}</span>
             </div>
             <div className="bg-white px-4 py-2 rounded-lg shadow">
-              <span className="font-bold text-gray-700">Pontos: </span>
+              <span className="font-bold text-gray-700">Points: </span>
               <span className="text-green-600">{points}</span>
             </div>
           </div>
@@ -205,25 +196,25 @@ function GamePage() {
               {gameState.won ? (
                 <div className="bg-green-100 border-2 border-green-500 rounded-lg p-4 mb-4">
                   <h2 className="text-2xl font-bold text-green-800 mb-2">
-                    Parabéns! Você acertou!
+                    Congratulations! You got it right!
                   </h2>
                   <p className="text-green-700">
-                    Você conseguiu em {gameState.attemptCount} tentativa(s)
+                    You succeeded in {gameState.attemptCount} attempt(s)
                   </p>
                 </div>
               ) : (
                 <div className="bg-red-100 border-2 border-red-500 rounded-lg p-4 mb-4">
                   <h2 className="text-2xl font-bold text-red-800 mb-2">
-                    Fim de jogo!
+                    Game over!
                   </h2>
-                  <p className="text-red-700">Tente novamente!</p>
+                  <p className="text-red-700">Try again!</p>
                 </div>
               )}
               <button
                 onClick={() => startNewGame(user.id)}
                 className="px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-colors"
               >
-                Novo Jogo
+                New Game
               </button>
             </div>
           )}
