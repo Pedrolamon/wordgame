@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import * as db from '../db';
+
+const router = Router();
+
+router.get('/', async (req, res) => {
+    try {
+      const result = await db.query(`
+        SELECT username, points 
+        FROM users 
+        ORDER BY points DESC 
+        LIMIT 10
+      `);
+      
+      res.json(result.row);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao obter ranking' });
+    }
+  });
+
+  export default router
