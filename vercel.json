@@ -2,22 +2,15 @@
   "version": 2,
   "buildCommand": "cd Frontend && npm install && npm run build",
   "outputDirectory": "Frontend/dist",
-  "installCommand": "npm install --prefix Frontend && npm install --prefix Backend",
   "framework": "vite",
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs20.x",
-      "includeFiles": "Backend/**"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "destination": "/Backend/src/server.ts"
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/Frontend/$1"
     }
   ]
 }
