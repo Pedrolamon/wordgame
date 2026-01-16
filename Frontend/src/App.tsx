@@ -7,7 +7,7 @@ import Ranking from "./pages/Ranking"
 
 const routes = [
   {
-    path: "/game",
+    path: "/",
     element: <GamePage />,
   },
   {
