@@ -3,8 +3,12 @@ import GameGrid from '../components/GameGrid';
 import Keyboard from '../components/Keyboard';
 import UserForm from '../components/UserForm';
 import Hints from '../components/Hints';
-import type { GameState, LetterStatus, LetterResult, User } from '../types';
+import type { GameState, LetterStatus, LetterResult, User,  } from '../types';
 import {api} from "../../libs/api"
+
+import { Link } from 'react-router-dom';
+
+import { UserRound, Trophy, ChartNoAxesColumn } from "lucide-react";
 
 import Name from '../components/ui/Name';
 
@@ -152,9 +156,8 @@ function GamePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-(--color-primary) flex items-center justify-center p-4">
-        <div className="bg-(--secondary-color) rounded-2xl shadow-xl p-4 w-full max-w-fit">
-          <Name/>
+      <div className="min-h-screen bg-(--color-primary) flex items-center justify-center ">
+        <div className="bg-(--secondary-color) rounded-2xl shadow-xl w-full max-w-fit">
           <UserForm onSubmit={handleUserSubmit} />
         </div>
       </div>
@@ -162,25 +165,48 @@ function GamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 to-blue-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-(--color-primary) py-8 px-4">
+      
+      <div className='flex justify-center mb-5'>
+           <Name size="text-4xl"/>
+      </div>
+      <div className="max-w-fit mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <Name/>
-          <div className="flex justify-center items-center gap-6 text-lg">
-            <div className="bg-white px-4 py-2 rounded-lg shadow">
-              <span className="font-bold text-gray-700">Player: </span>
-              <span className="text-blue-600">{user.username}</span>
-            </div>
-            <div className="bg-white px-4 py-2 rounded-lg shadow">
-              <span className="font-bold text-gray-700">Points: </span>
-              <span className="text-green-600">{points}</span>
-            </div>
-          </div>
-        </div>
-
         {/* Game Grid */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+        <div className="bg-(--secondary-color) rounded-2xl shadow-xl p-5 mb-6">
+        <div className="flex justify-center mb-8">
+  <div className="flex items-center gap-6 px-6 py-3 rounded-xl">
+
+              <div className="flex items-center gap-2">
+                <UserRound className="w-5 h-5 text-slate-400" />
+                <span className="text-sm text-slate-500">Player</span>
+                <span className="font-semibold text-slate-900">
+                  {user.username}
+                </span>
+              </div>
+
+              <div className="w-px h-6 bg-slate-200 dark:bg-slate-700" />
+
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-amber-400" />
+                <span className="text-sm text-slate-500">Points</span>
+                <span className="font-semibold text-emerald-500">
+                  {points}
+                </span>
+              </div>
+
+            </div>
+            <Link 
+      to="/rank" 
+      className="flex items-center gap-2 hover:bg-slate-100 p-2 rounded-lg transition-colors group"
+      title="View Ranking"
+    >
+      <ChartNoAxesColumn className="w-5 h-5 text-blue-500 group-hover:scale-110 transition-transform" />
+      <span className="text-sm font-bold text-slate-600">Rank</span>
+    </Link>
+          </div>
+
+
           <GameGrid
             guesses={gameState.guesses}
             currentGuess={gameState.currentGuess}
@@ -218,10 +244,6 @@ function GamePage() {
               </button>
             </div>
           )}
-        </div>
-
-        {/* Keyboard */}
-        <div className="bg-white rounded-2xl shadow-xl p-6">
           <Keyboard onKeyPress={handleKeyPress} letterStates={letterStates} />
         </div>
       </div>
