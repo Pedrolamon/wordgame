@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch src/server.ts",
+    "dev": "tsx --watch src/api.ts",
     "build": "tsc",
-    "start": "tsx src/server.ts"
+    "start": "tsx src/api.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

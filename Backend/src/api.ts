@@ -17,10 +17,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-
-app.use("/api/ranking", Ranking);
-app.use("/api/game", Game);
-app.use("/api/user", User);
+app.use("/ranking", Ranking);
+app.use("/game", Game);
+app.use("/user", User);
 
 const startServer = async () => {
   try {
