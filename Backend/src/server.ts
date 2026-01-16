@@ -35,5 +35,20 @@ const startServer = async () => {
   }
 };
 
-startServer();
+const connect = async () => {
+  try {
+    await db.connectDB();
+    await db.setupDatabase();
+  } catch (err) {
+    console.error('Database connection failed:', err);
+  }
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  startServer();
+} else {
+  connect();
+}
+
+
 export default app;
