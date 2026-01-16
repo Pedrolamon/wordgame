@@ -27,7 +27,6 @@ export default function Keyboard({ onKeyPress, letterStates }: KeyboardProps) {
     }
   };
 
-  // ... (mantenha o layout e a função getKeyColor igual)
 
   return (
     <div className="flex flex-col gap-1.5 w-full max-w-md mx-auto p-1">

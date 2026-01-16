@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 //pages
 import GamePage from "./pages/Game";
-import Ranking from "./pages/ranking"
+import Ranking from "./pages/Ranking"
 
 
 

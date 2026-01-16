@@ -67,16 +67,16 @@ function GamePage() {
           gameId: gameState.gameId,
           guess: gameState.currentGuess,
         });
+
       const data =  response.data;
 
       const newGuesses = [...gameState.guesses, data.result as LetterResult[]];
       const newAttemptCount = gameState.attemptCount + 1;
 
-      // Atualizar estados das letras no teclado
+      // Update letter states on the keyboard.
       const newLetterStates = { ...letterStates };
       data.result.forEach((result: LetterResult) => {
         const currentStatus = newLetterStates[result.letter];
-        // Só atualiza se for um status melhor
         if (
           !currentStatus ||
           (result.status === 'correct') ||
@@ -165,11 +165,11 @@ function GamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-(--color-primary) py-4 px-2 md:py-8 md:px-4 overflow-x-hidden"> {/*primeira mudança */}
+    <div className="min-h-screen bg-(--color-primary) py-4 px-2 md:py-8 md:px-4 overflow-x-hidden"> 
       <div className='flex justify-center mb-5'>
            <Name size="text-4xl"/>
       </div>
-{/* Container Principal Responsivo */}
+{/*Responsive Main Container*/}
       <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-center items-start gap-6">
         
       <div className="md:absolute md:top-28 md:left-6 w-full md:w-64 lg:w-80 px-2 order-2 md:order-0 mt-6 md:mt-0">
@@ -178,11 +178,9 @@ function GamePage() {
       </div>
     </div>
 
-  {/* COLUNA DO JOGO: Aparece primeiro no mobile */}
       <div className="w-full md:max-w-fit mx-auto order-1 md:order-2">
         <div className="bg-(--secondary-color) rounded-2xl shadow-xl p-4 md:p-6 mb-6">
 
-          {/* Header: Player e Points */}
         <div className="flex justify-between items-center mb-6 gap-4">
   <div className="flex items-center gap-4 px-6 py-3 rounded-xl">
 

@@ -2,7 +2,6 @@ import {
   Gamepad2,
   Palette,
   Lightbulb,
-  Trophy,
   User,
   Play
 } from "lucide-react";

@@ -8,7 +8,7 @@ router.post('/start', async (req, res) => {
     const { userId } = req.body;
     
     if (!userId) {
-      return res.status(400).json({ error: 'ID do usuário é obrigatório' });
+      return res.status(400).json({ error: 'User ID is required.' });
     }
     
     try {
@@ -27,31 +27,31 @@ router.post('/start', async (req, res) => {
       
       res.json({ gameId, wordLength: 5 });
     } catch (error) {
-      console.error('Erro ao iniciar jogo:', error);
-      res.status(500).json({ error: 'Erro ao iniciar jogo' });
+      console.error('Error starting game:', error);
+      res.status(500).json({ error: 'Error starting game' });
     }
   });
   
-  // Fazer tentativa
+  // Try it
   router.post('/guess', async (req, res) => {
     const { gameId, guess } = req.body;
     
     if (!gameId || !guess) {
-      return res.status(400).json({ error: 'gameId e guess são obrigatórios' });
+      return res.status(400).json({ error: 'Game ID and guess are required' });
     }
     
     const game = activeGames.get(gameId);
     if (!game) {
-      return res.status(404).json({ error: 'Jogo não encontrado' });
+      return res.status(404).json({ error: 'Game not found' });
     }
     
     if (game.finished) {
-      return res.status(400).json({ error: 'Jogo já finalizado' });
+      return res.status(400).json({ error: 'Game already finished' });
     }
     
     const normalizedGuess = normalizeWord(guess);
     if (normalizedGuess.length !== 5) {
-      return res.status(400).json({ error: 'A palavra deve ter 5 letras' });
+      return res.status(400).json({ error: 'The word must have 5 letters.' });
     }
     
     game.attemptCount++;
@@ -62,7 +62,7 @@ router.post('/start', async (req, res) => {
     game.won = won;
     
     let hint: string | null | undefined = null;
-    // Gerar dica a partir do segundo erro (após 2 tentativas)
+    // Generate a hint based on the second error (after 2 attempts)
     if (game.attemptCount >= 2 && !won && game.hints.length < 5) {
       hint = await generateHint(game.word, game.attemptCount, game.hints);
       game.hints.push(hint);
@@ -74,7 +74,6 @@ router.post('/start', async (req, res) => {
         try {
           if (won) {
             const points = 100 - (game.attemptCount - 1) * 15;
-            // Postgres usa $1, $2 para parâmetros
             await db.query('UPDATE users SET points = points + $1 WHERE id = $2', [points, game.userId]);
             await db.query(
               'INSERT INTO games (user_id, word, won, attempts) VALUES ($1, $2, $3, $4)',
@@ -87,7 +86,7 @@ router.post('/start', async (req, res) => {
             );
           }
         } catch (dbError) {
-          console.error('Erro ao salvar dados finais:', dbError);
+          console.error('Error saving final data:', dbError);
         }
     
         activeGames.delete(gameId);
