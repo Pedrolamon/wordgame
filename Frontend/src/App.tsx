@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 //pages
-import GamePage from "./pages/gamePage";
+import GamePage from "./pages/Game";
+import Ranking from "./pages/ranking"
 
 
 
@@ -8,6 +9,10 @@ const routes = [
   {
     path: "/game",
     element: <GamePage />,
+  },
+  {
+    path: "/rank",
+    element: <Ranking />,
   },
 ] as const;
 

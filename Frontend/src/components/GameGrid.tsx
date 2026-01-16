@@ -6,7 +6,7 @@ interface GameGridProps {
   currentRow: number;
 }
 
-export default function GameGrid({ guesses, currentGuess, currentRow }: GameGridProps) {
+export default function GameGrid({ guesses, currentGuess }: GameGridProps) {
   const rows = 6;
   const cols = 5;
 
@@ -36,7 +36,7 @@ export default function GameGrid({ guesses, currentGuess, currentRow }: GameGrid
       case 'absent':
         return 'bg-gray-500 text-white';
       default:
-        return 'bg-gray-200 border-2 border-gray-300 text-gray-900';
+        return 'bg-gray-200 border-3 border-gray-400  text-gray-900';
     }
   };
 

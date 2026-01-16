@@ -7,6 +7,8 @@ import {
   Play
 } from "lucide-react";
 
+import Name from "./ui/Name"
+
 
 interface UserFormProps {
   onSubmit: (username: string) => void;
@@ -24,9 +26,10 @@ export default function UserForm({ onSubmit }: UserFormProps) {
 
   return (
     <div className="w-full max-w-md mx-auto p-8 bg-(--secondary-color) rounded-3xl  transition-all">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-        
-        <section className="flex flex-col gap-3 text-sm leading-relaxed border-t border-slate-200 pt-8">
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+      <Name/>
+        <section className="flex flex-col gap-3 text-sm leading-relaxed border-t border-slate-200 pt-1">
        
           <div className="flex gap-2 items-center">
             <Gamepad2 className="w-5 h-5 text-blue-600" />
@@ -77,7 +80,7 @@ export default function UserForm({ onSubmit }: UserFormProps) {
             </ul>
           </div>
 
-          <div className="bg-(--secondary-color) p-5 rounded-2xl border border-dashed border-slate-300 ">
+          <div className="bg-(--secondary-color) p-5 rounded-2xl border border-dashed border-slate-600 ">
          <div className="flex gap-2 items-center">
           <Lightbulb className="w-5 h-5 mb-3 text-amber-400" />
             <h2 className="font-bold mb-3 text-slate-800 ">Tips and Scoring</h2>
@@ -93,13 +96,13 @@ export default function UserForm({ onSubmit }: UserFormProps) {
 
         <div className="flex  gap-4">
         <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600" />
           <input
             type="text"
             name="username"
             placeholder="Enter your name"
             className="pl-10 pr-4 py-3 text-base rounded-lg border border-slate-300
-                      bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
