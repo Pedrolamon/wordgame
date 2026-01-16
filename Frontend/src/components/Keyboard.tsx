@@ -27,25 +27,28 @@ export default function Keyboard({ onKeyPress, letterStates }: KeyboardProps) {
     }
   };
 
+  // ... (mantenha o layout e a função getKeyColor igual)
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5 w-full max-w-md mx-auto p-1">
       {keyboardLayout.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex gap-1 justify-center">
-          {row.map((key) => (
-            <button
-              key={key}
-              onClick={() => onKeyPress(key)}
-              className={`px-3 py-4 font-bold rounded-md transition-colors ${
-                getKeyColor(key)
-              } ${
-                key === 'ENTER' || key === 'BACKSPACE'
-                  ? 'px-4 text-sm'
-                  : 'min-w-10'
-              }`}
-            >
-              {key === 'BACKSPACE' ? '⌫' : key}
-            </button>
-          ))}
+        <div key={rowIndex} className="flex gap-1 justify-center w-full touch-none">
+          {row.map((key) => {
+            const isLargeKey = key === 'ENTER' || key === 'BACKSPACE';
+            return (
+              <button
+                key={key}
+                onClick={() => onKeyPress(key)}
+                className={`
+                  ${getKeyColor(key)}
+                  ${isLargeKey ? 'flex-[1.5] text-[10px] md:text-sm' : 'flex-1'}
+                  h-14 font-bold rounded-md transition-colors flex items-center justify-center uppercase
+                `}
+              >
+                {key === 'BACKSPACE' ? '⌫' : key}
+              </button>
+            );
+          })}
         </div>
       ))}
     </div>
