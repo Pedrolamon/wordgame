@@ -22,10 +22,10 @@ router.post('/', async (req, res) => {
         user = insertRes.rows[0];
       }
   
-      res.json(user);
+      return res.json(user);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error creating/getting user' });
+      return res.status(500).json({ error: 'Error creating/getting user' });
     }
   });
   
@@ -38,9 +38,9 @@ router.post('/', async (req, res) => {
         return res.status(404).json({ error: 'User not found' });
       }
       
-      res.json({ points: result.rows[0].points });
+     return  res.json({ points: result.rows[0].points });
     } catch (error) {
-      res.status(500).json({ error: 'Error obtaining score' });
+     return res.status(500).json({ error: 'Error obtaining score' });
     }
   });
 

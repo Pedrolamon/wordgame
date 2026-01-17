@@ -25,10 +25,10 @@ router.post('/start', async (req, res) => {
         finished: false
       });
       
-      res.json({ gameId, wordLength: 5 });
+      return res.json({ gameId, wordLength: 5 });
     } catch (error) {
       console.error('Error starting game:', error);
-      res.status(500).json({ error: 'Error starting game' });
+      return res.status(500).json({ error: 'Error starting game' });
     }
   });
   
@@ -92,7 +92,7 @@ router.post('/start', async (req, res) => {
         activeGames.delete(gameId);
       }
     
-    res.json({
+    return res.json({
       result,
       won,
       attemptCount: game.attemptCount,

@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
         LIMIT 10
       `);
       
-      res.json(result.rows);
+     return res.json(result.rows);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao obter ranking' });
+      return res.status(500).json({ error: 'Erro ao obter ranking' });
     }
   });
 
