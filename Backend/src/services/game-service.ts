@@ -10,23 +10,27 @@ const openai = new OpenAI({
   
 
 // Normalize word (remove accents, capitalization)
- export function normalizeWord(word) {
+ export function normalizeWord(word: string): string {
     return word
       .normalize('NFD') 
       .replace(/[\u0300-\u036f]/g, '')
       .toUpperCase();
   }
   
+  interface GuessResult {
+    letter: string;
+    status: 'correct' | 'present' | 'absent';
+  }
 
 // Verify attempt
-export function checkGuess(secretWord, guess) {
+export function checkGuess(secretWord: string, guess:string): GuessResult[] {
     const normalizedSecret = normalizeWord(secretWord);
     const normalizedGuess = normalizeWord(guess);
     
-    const result: { letter: string; status: string }[] = [];
+    const result: GuessResult[] = [];
     const secretLetters = normalizedSecret.split('');
     const guessLetters = normalizedGuess.split('');
-    const secretCount = {};
+    const secretCount: Record<string, number> = {};
     
     // Counting letters in the secret word
     for (const letter of secretLetters) {
@@ -36,21 +40,27 @@ export function checkGuess(secretWord, guess) {
     // First pass: mark the correct positions.
     const used = new Array(5).fill(false);
     for (let i = 0; i < 5; i++) {
-      if (guessLetters[i] === secretLetters[i]) {
-        result[i] = { letter: guessLetters[i], status: 'correct' };
+      const char = guessLetters[i];
+      if (char && char === secretLetters[i]) {
+        result[i] = { letter: char, status: 'correct' };
         used[i] = true;
-        secretCount[guessLetters[i]]--;
-      }
+       if (secretCount[char] !== undefined) {
+      secretCount[char]--;
+    }
+    }
     }
     
     // Step 2: Mark letters in the word but in the wrong position.
     for (let i = 0; i < 5; i++) {
-      if (!used[i]) {
-        if (secretCount[guessLetters[i]] > 0) {
-          result[i] = { letter: guessLetters[i], status: 'present' };
-          secretCount[guessLetters[i]]--;
+      const char = guessLetters[i];
+      if (!used[i] && char) {
+        // Verificamos se existe e se é maior que 0
+        const count = secretCount[char] || 0;
+        if (count > 0) {
+          result[i] = { letter: char, status: 'present' };
+          secretCount[char] = count - 1;
         } else {
-          result[i] = { letter: guessLetters[i], status: 'absent' };
+          result[i] = { letter: char, status: 'absent' };
         }
       }
     }
@@ -77,13 +87,13 @@ export function checkGuess(secretWord, guess) {
         max_tokens: 10
       });
       
-      let word = response.choices[0].message.content?.trim().toUpperCase() || "";
+      let word = response.choices[0]?.message?.content?.trim().toUpperCase() || "";
       // Remove accents and keep only letters.
       word = normalizeWord(word).replace(/[^A-Z]/g, '');
       
       if (word?.length !== 5) {
         const fallbackWords = ['APPLE', 'HOUSE', 'GREEN', 'LIGHT', 'WATER'];
-        word = fallbackWords[Math.floor(Math.random() * fallbackWords.length)];
+        word = fallbackWords[Math.floor(Math.random() * fallbackWords.length)] || 'APPLE';
       }
       
       return word;
@@ -96,7 +106,7 @@ export function checkGuess(secretWord, guess) {
   }
   
   // generating words using OpenAI
-  export async function generateHint(secretWord, attempts, previousHints = []) {
+  export async function generateHint(secretWord: string, attempts:number, previousHints: string[] = []): Promise<string> {
     try {
       const hintNumber = attempts - 1; 
       const hintText = previousHints.join('. ');
@@ -117,7 +127,7 @@ export function checkGuess(secretWord, guess) {
         max_tokens: 100
       });
       
-      return response.choices[0].message.content?.trim();
+      return response.choices[0]?.message?.content?.trim() || 'Keep trying!';
     } catch (error) {
       console.error('Error generating tip:', error);
       return 'Keep trying!';
