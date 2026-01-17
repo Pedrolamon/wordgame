@@ -1,15 +1,44 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    
+    // Output
     "outDir": "./dist",
     "rootDir": "./src",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    
+    // Type checking
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    
+    // Emit
+    "removeComments": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    
+    // Node.js específico
+    "types": ["node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
