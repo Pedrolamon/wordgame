@@ -10,7 +10,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/Frontend/$1"
+      "destination": "/Frontend/index.html"
     }
   ]
 }
