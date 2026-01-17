@@ -11,7 +11,7 @@ import User from "./routes/user";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -25,10 +25,8 @@ db.connectDB()
   .then(() => console.log("✅ Conectado ao PostgreSQL com sucesso!"))
   .catch(err => console.error("❌ Falha na conexão com o banco:", err));
 
-if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
   });
-}
 
 export default app;

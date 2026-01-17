@@ -3,19 +3,10 @@
   "buildCommand": "cd Frontend && npm install && npm run build",
   "outputDirectory": "Frontend/dist",
   "framework": "vite",
-  "functions": {
-    "Backend/src/server.ts": {
-      "runtime": "vercel-node@latest"
-    }
-  },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "Backend/src/server.ts"
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/Frontend/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
