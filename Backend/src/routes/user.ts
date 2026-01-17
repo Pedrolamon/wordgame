@@ -3,6 +3,7 @@ import * as db from '../db';
 
 const router = Router();
 
+console.log("🔥 Backend iniciado na Vercel!");
 
 router.post('/', async (req, res) => {
     const { username } = req.body;

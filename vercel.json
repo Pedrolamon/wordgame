@@ -5,11 +5,11 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": "/Backend/src/server.ts"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/Frontend/index.html"
     }
   ]
