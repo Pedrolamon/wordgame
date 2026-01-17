@@ -46,7 +46,7 @@ export default function Ranking() {
             </div>
             
             {/* Link to return to the game*/}
-            <Link to="/game" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
+            <Link to="/" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
               <ChevronLeft className="w-6 h-6" />
             </Link>
           </div>
@@ -95,7 +95,7 @@ export default function Ranking() {
 
           {/* Play Again Button (Footer) */}
           <div className="mt-8 pt-6 border-t border-slate-200">
-             <Link to="/game">
+             <Link to="/">
                <button className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/30 uppercase tracking-widest active:scale-95">
                   Play Now
                </button>
