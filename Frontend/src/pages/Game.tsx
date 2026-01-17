@@ -156,8 +156,8 @@ function GamePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-(--color-primary) flex items-center justify-center ">
-        <div className="bg-(--secondary-color) rounded-2xl shadow-xl w-full max-w-fit">
+      <div className="min-h-screen bg-(--color-primary) flex items-center justify-center p-4">
+        <div className="bg-(--secondary-color) rounded-2xl shadow-xl w-full max-w-md overflow-y-auto ">
           <UserForm onSubmit={handleUserSubmit} />
         </div>
       </div>

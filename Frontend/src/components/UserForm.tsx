@@ -93,14 +93,14 @@ export default function UserForm({ onSubmit }: UserFormProps) {
           </div>
         </section>
 
-        <div className="flex  gap-4">
-        <div className="relative">
+        <div className="flex flex-col sm:flex-row gap-3 mt-4">
+        <div className="relative flex-1">
           <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600" />
           <input
             type="text"
             name="username"
             placeholder="Enter your name"
-            className="pl-10 pr-4 py-3 text-base rounded-lg border border-slate-300
+            className=" w-full pl-10 pr-4 py-3 text-base rounded-lg border border-slate-300
                       bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
@@ -109,7 +109,7 @@ export default function UserForm({ onSubmit }: UserFormProps) {
             type="submit"
             className="flex items-center justify-center gap-2 px-6 py-3
                       bg-(--button-color) text-white font-semibold rounded-lg
-                      hover:bg-blue-400 transition-colors"
+                      hover:bg-blue-400 transition-colors whitespace-nowrap"
           >
             <Play className="w-5 h-5" />
             Start 
