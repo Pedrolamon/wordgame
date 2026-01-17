@@ -1,6 +1,6 @@
 import  { Router } from 'express';
-import * as db from '../db';
-import {generateWord, activeGames, normalizeWord, checkGuess, generateHint} from "../services/game-service"
+import * as db from '../db.js';
+import {generateWord, activeGames, normalizeWord, checkGuess, generateHint} from "../services/game-service.js"
 
 const router = Router();
 
