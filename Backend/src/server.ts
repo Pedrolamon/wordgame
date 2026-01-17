@@ -3,16 +3,15 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as db from './db';
 
-//Routes
-import Ranking from "./routes/ranking"
-import Game from "./routes/game"
-import User from "./routes/user"
+// Routes
+import Ranking from "./routes/ranking";
+import Game from "./routes/game";
+import User from "./routes/user";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 
 app.use(cors());
 app.use(express.json());
@@ -21,33 +20,15 @@ app.use("/api/ranking", Ranking);
 app.use("/api/game", Game);
 app.use("/api/user", User);
 
-const startServer = async () => {
-  try {
-      await db.connectDB();
-      await db.setupDatabase();
-      app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`)
-      });
-  } catch (error) {
-      console.error('Server startup failed:', error);
-      process.exit(1);
-  }
-};
-
-const connect = async () => {
-  try {
-    await db.connectDB();
-    await db.setupDatabase();
-  } catch (err) {
-    console.error('Database connection failed:', err);
-  }
-};
+db.connectDB()
+  .then(() => db.setupDatabase())
+  .then(() => console.log("✅ Conectado ao PostgreSQL com sucesso!"))
+  .catch(err => console.error("❌ Falha na conexão com o banco:", err));
 
 if (process.env.NODE_ENV !== 'production') {
-  startServer();
-} else {
-  connect();
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+  });
 }
-
 
 export default app;
