@@ -3,7 +3,7 @@ import * as db from '../db.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     try {
       const result = await db.query(`
         SELECT username, points 
