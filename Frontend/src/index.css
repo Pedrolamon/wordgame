@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
-:root{
+:root {
     --color-primary: #cce9fe;
-    --secondary-color:#d6edfe;
+    --secondary-color: #d6edfe;
     --text-color: #1E293B;
     --button-color: #87cbfb;
+}
+
+html,
+body {
+    background-color: var(--color-primary);
+
+    overscroll-behavior-y: none;
 }
