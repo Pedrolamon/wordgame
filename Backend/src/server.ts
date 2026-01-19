@@ -23,14 +23,14 @@ app.use("/api/user", User);
 
 const startServer = async () => {
   try {
-      await db.connectDB();
-      await db.setupDatabase();
-      app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`)
-      });
+    await db.connectDB();
+    await db.setupDatabase();
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`)
+    });
   } catch (error) {
-      console.error('Server startup failed:', error);
-      process.exit(1);
+    console.error('Server startup failed:', error);
+    process.exit(1);
   }
 };
 

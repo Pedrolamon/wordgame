@@ -1,4 +1,4 @@
-import { Pool, QueryResult} from 'pg';
+import { Pool, QueryResult } from 'pg';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,20 +8,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const connectionString = process.env.DATABASE_URL;
-    
-    if (!connectionString) {
+
+if (!connectionString) {
     throw new Error('DATABASE_URL is not defined in the environment..');
 }
 
 const pool = new Pool({
     connectionString: connectionString,
-    max: 10, 
+    max: 10,
     idleTimeoutMillis: 30000,
 });
 
 pool.on('error', (err) => {
-  console.error('Unexpected error in idle pool client', err);
-  process.exit(-1); 
+    console.error('Unexpected error in idle pool client', err);
+    process.exit(-1);
 });
 
 console.log('PostgreSQL connection pool initialized.');

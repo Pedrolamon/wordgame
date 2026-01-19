@@ -7,7 +7,7 @@ import AppRoutes from './App.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <AppRoutes />
+      <AppRoutes />
     </BrowserRouter>
   </StrictMode>,
 )

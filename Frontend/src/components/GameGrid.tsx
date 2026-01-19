@@ -48,17 +48,15 @@ export default function GameGrid({ guesses, currentGuess }: GameGridProps) {
             const content = getCellContent(row, col);
             const status = getCellStatus(row, col);
             const isCurrentRow = row === guesses.length;
-            
+
             return (
               <div
                 key={col}
-                className={`w-16 h-16 flex items-center justify-center text-2xl font-bold rounded-md transition-all duration-300 ${
-                  getStatusColor(status)
-                } ${
-                  isCurrentRow && content
+                className={`w-16 h-16 flex items-center justify-center text-2xl font-bold rounded-md transition-all duration-300 ${getStatusColor(status)
+                  } ${isCurrentRow && content
                     ? 'border-2 border-blue-500 animate-pulse'
                     : ''
-                }`}
+                  }`}
               >
                 {content}
               </div>
