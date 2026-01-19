@@ -4,6 +4,7 @@ import type { LetterStatus } from '../types';
 interface KeyboardProps {
   onKeyPress: (key: string) => void;
   letterStates: Record<string, LetterStatus>;
+  disabled: boolean;
 }
 
 const keyboardLayout = [
@@ -12,7 +13,7 @@ const keyboardLayout = [
   ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
 ];
 
-export default function Keyboard({ onKeyPress, letterStates }: KeyboardProps) {
+export default function Keyboard({ onKeyPress, letterStates, disabled }: KeyboardProps) {
   const getKeyColor = (key: string) => {
     const status = letterStates[key];
     switch (status) {
@@ -36,13 +37,14 @@ export default function Keyboard({ onKeyPress, letterStates }: KeyboardProps) {
             const isLargeKey = key === 'ENTER' || key === 'BACKSPACE';
             return (
               <button
+                disabled={disabled}
                 key={key}
                 onClick={() => onKeyPress(key)}
                 className={`
                   ${getKeyColor(key)}
                   ${isLargeKey ? 'flex-[1.5] text-[10px] md:text-sm' : 'flex-1'}
                   h-14 font-bold rounded-md transition-colors flex items-center justify-center uppercase
-                `}
+                ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               >
                 {key === 'BACKSPACE' ? '⌫' : key}
               </button>
