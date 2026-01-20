@@ -34,6 +34,9 @@ const startServer = async () => {
   }
 };
 
+app.get('/', (req, res) => {
+  res.send('Server Online!');
+});
 
 startServer();
 
