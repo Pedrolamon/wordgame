@@ -42,7 +42,7 @@ npm install
 
 3. Create a `.env` file in the Backend folder containing your OpenAI key.:
 ```env
-OPENAI_API_KEY=sua_chave_aqui
+OPENAI_API_KEY=your_key_here
 PORT=3001
 ```
 
@@ -84,9 +84,9 @@ The frontend will be running on `http://localhost:5173` (or another port if 5173
 5. Starting with the second incorrect attempt, you will receive tips from the AI.
 6. Earn points by guessing the word correctly!
 
-## Estrutura do Banco de Dados
+## Database Structure
 
-O banco de dados SQLite contém duas tabelas:
+The SQLite database contains two tables:
 
 ### users
 - `id` (UUID PRIMARY KEY)
