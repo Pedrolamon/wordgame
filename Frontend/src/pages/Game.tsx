@@ -17,19 +17,35 @@ function GamePage() {
     const savedUser = localStorage.getItem('wordgame_user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
-  const [gameState, setGameState] = useState<GameState>({
-    gameId: null,
-    currentGuess: '',
-    guesses: [],
-    attemptCount: 0,
-    won: false,
-    finished: false,
-    hints: [],
+  const [gameState, setGameState] = useState<GameState>(() => {
+    const saved = localStorage.getItem('wordgame_state');
+    return saved ? JSON.parse(saved) : {
+      gameId: null,
+      currentGuess: '',
+      guesses: [],
+      attemptCount: 0,
+      won: false,
+      finished: false,
+      hints: [],
+    };
+  })
+  const [letterStates, setLetterStates] = useState<Record<string, LetterStatus>>(() => {
+    const saved = localStorage.getItem('wordgame_letters');
+    return saved ? JSON.parse(saved) : {};
   });
-  const [letterStates, setLetterStates] = useState<Record<string, LetterStatus>>({});
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(() => {
+    const savedUser = localStorage.getItem('wordgame_user');
+    return savedUser ? JSON.parse(savedUser).points : 0;
+  });
   const [showResult, setShowResult] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (gameState.gameId) {
+      localStorage.setItem('wordgame_state', JSON.stringify(gameState));
+    }
+    localStorage.setItem('wordgame_letters', JSON.stringify(letterStates));
+  }, [gameState, letterStates]);
 
   const handleUserSubmit = async (username: string) => {
     try {
@@ -48,7 +64,8 @@ function GamePage() {
     try {
       const response = await api.post(`/game/start`, { userId });
       const data = response.data;
-      setGameState({
+
+      const newState = {
         gameId: data.gameId,
         currentGuess: '',
         guesses: [],
@@ -56,18 +73,22 @@ function GamePage() {
         won: false,
         finished: false,
         hints: [],
-      });
+      };
+
+      setGameState(newState);
       setLetterStates({});
       setShowResult(false);
+
+      localStorage.setItem('wordgame_state', JSON.stringify(newState));
+      localStorage.removeItem('wordgame_letters');
+
     } catch (error) {
       alert('Error starting game.');
     }
   };
 
   const submitGuess = useCallback(async () => {
-
     if (gameState.currentGuess.length !== 5 || !gameState.gameId || isSubmitting) return;
-
     setIsSubmitting(true);
     try {
       const response = await api.post(`/game/guess`, {
@@ -110,13 +131,20 @@ function GamePage() {
 
       if (data.finished) {
         setShowResult(true);
+        localStorage.removeItem('wordgame_state');
+        localStorage.removeItem('wordgame_letters');
         if (data.won && user) {
           const pointsResponse = await api.get(`/user/${user.id}/points`);
           setPoints(pointsResponse.data.points);
         }
       }
-    } catch (error) {
-      alert('Error while attempting');
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        alert('Session expired on the server. Starting a new game...');
+        if (user) startNewGame(user.id);
+      } else {
+        alert('Error while attempting');
+      }
     } finally {
       setIsSubmitting(false);
     }
